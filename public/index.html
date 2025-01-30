@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Telegram Mini App</title>
+    <script>
+        // Подключение Telegram WebApp API
+        window.onload = async function () {
+            if (window.Telegram.WebApp) {
+                Telegram.WebApp.ready();
+
+                // Получаем информацию о пользователе
+                const userId = Telegram.WebApp.initDataUnsafe.user.id;
+
+                // Делаем запрос к серверу, чтобы получить сообщение
+                const response = await fetch(`/api/get-message/${userId}`);
+                const data = await response.json();
+
+                // Отображаем сообщение на странице
+                document.getElementById('message').textContent = data.message;
+            }
+        };
+    </script>
+</head>
+<body>
+    <h1>Ваше сообщение из Telegram:</h1>
+    <p id="message">Загрузка...</p>
+</body>
+</html>
